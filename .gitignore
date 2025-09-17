@@ -1,0 +1,17 @@
+# build directory
+/compiler/build/
+
+# Compiled binaries
+*.exe
+*.out
+*.o
+*.obj
+
+# Libraries
+*.a
+*.so
+*.dll
+*.dylib
+
+# editor files
+*.swp
