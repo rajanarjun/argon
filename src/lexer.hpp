@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 enum class TokenType {
     IDENTIFIER,  // x, y ,c, s, add
     CHAR,        // 'a'
@@ -24,8 +26,8 @@ enum class TokenType {
     DEC_TYPE,    // dec
     ALP_TYPE,    // alp
     TEXT_TYPE,   // text
-    EOF          // END OF FILE
-}
+    END_OF_FILE  // END OF FILE
+};
 
 
 class Lexer {
@@ -37,4 +39,4 @@ class Lexer {
     public:
         Lexer(const std::string& source_contents);
 
-}
+};
