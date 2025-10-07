@@ -1,0 +1,5 @@
+# example code
+_
+let x = num 12
+
+print : x

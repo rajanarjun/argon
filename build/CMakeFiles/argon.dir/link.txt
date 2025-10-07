@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/argon.dir/src/main.cpp.o CMakeFiles/argon.dir/src/lexer.cpp.o -o argon 
