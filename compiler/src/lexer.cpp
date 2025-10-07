@@ -7,7 +7,7 @@
  * 
  */
 
-#include "lexer.h"
+#include "lexer.hpp"
 
 
 int lexer() {
