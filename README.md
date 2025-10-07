@@ -1,6 +1,6 @@
 ## argon : simple language and compiler
 
-what I currently came up with for basic syntax (subject to change):
+basic syntax:
 
 ```argon
 # comments start with '#'
