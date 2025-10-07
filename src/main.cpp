@@ -3,24 +3,23 @@
 #include <fstream>
 #include "lexer.hpp"
 
-
 std::string get_file_contents(const std::string& filename) {
 
     std::ifstream input_file(filename, std::ios::binary);
 
     if (!input_file) {
         std::cerr << "   argon: Failed to open file: " << filename << std::endl;
-        return NULL;
+        return "";
     }
 
     input_file.seekg(0, std::ios::end);
-    streamsize fsize = input_file.tellg();
+    std::streamsize fsize = input_file.tellg();
     input_file.seekg(0, std::ios::beg);
 
     std::string contents(fsize, '\0');
     if (!input_file.read(&contents[0], fsize)) {
         std::cerr << "   argon: Failed to read file: " << filename << std::endl;
-        return NULL;
+        return "";
     }
 
     return contents;
