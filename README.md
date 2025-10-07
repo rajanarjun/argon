@@ -21,20 +21,10 @@ let j = x - y
 let k = x * y
 let l = x / y
 
-# function declaration
-$add num
-    num a
-    num b
-    ret a + b
-end
-
-# function call
-let v = @add : x y
-
 # conditional
-if x > 0
+if x > 0 ?
     print : x
-else
+else ?
     let z = num 0
     print : z
 end
