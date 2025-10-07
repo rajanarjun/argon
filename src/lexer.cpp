@@ -7,10 +7,13 @@
  * 
  */
 
+#include <iostream>
 #include "lexer.hpp"
 
 
-int lexer() {
+Lexer::Lexer(const std::string& source_contents)
+    : input_text(source_contents), cpos(0), cline(1), ccol(1) {
 
-    return 0;
+        std::cout << source_contents << std::endl;
 }
+
