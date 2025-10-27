@@ -18,12 +18,14 @@ enum class TokenType {
     KEYWORD_ALP,
     KEYWORD_TEXT,
     OPERATOR_EQUAL,
+    OPERATOR_ASSIGNMENT,
+    OPERATOR_NOTEQUAL,
     OPERATOR_LESS,
     OPERATOR_GREATER,
     OPERATOR_PLUS,
     OPERATOR_MINUS,
-    OPERATOR_STAR,
-    OPERATOR_SLASH,
+    OPERATOR_MULTIPLY,
+    OPERATOR_DIVIDE,
     PUNCTUATION_OPENPAREN,
     PUNCTUATION_CLOSEPAREN,
     PUNCTUATION_COLON,
@@ -31,13 +33,26 @@ enum class TokenType {
     END_OF_FILE
 };
 
+
+struct Token {
+    TokenType type;
+    std::string value;
+    int line;
+    int column;
+};
+
+
 class Lexer {
 private:
     std::string input_text;
-    int cpos;
-    int cline;
-    int ccol;
+    TokenType current_token;
+    int current_position;
+    int current_line;
+    int current_column;
+    vector<Token> token_stream;
 
 public:
     Lexer(const std::string &source_contents);
+    
+    void tokenize();
 };

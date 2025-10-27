@@ -56,6 +56,7 @@ int main(int argc, char **argv) {
     std::string source_file_contents = get_file_contents(source_file);
 
     Lexer lexer(source_file_contents);
+    vector<Token> tokens = lexer.generate_tokens();
     
     /* how flow will look like moving forward?
 
