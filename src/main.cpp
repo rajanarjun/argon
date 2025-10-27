@@ -56,6 +56,22 @@ int main(int argc, char **argv) {
     std::string source_file_contents = get_file_contents(source_file);
 
     Lexer lexer(source_file_contents);
+    
+    /* how flow will look like moving forward?
+
+        // Lexer
+        Lexer lexer(source_file_contents);
+        vector<Token> tokens = lexer.generate_token()
+
+        // Parser
+        Parser parser(tokens)
+        AST ast = parser.parse()
+
+        // using LLVM
+        CodeGen codegen;
+        codegen.generate(ast)
+
+    */
 
     return 0;
 }
