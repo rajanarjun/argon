@@ -1,10 +1,14 @@
+
+/* TODO: 
+1. differences of '=' and '=='
+2. alphanumeric case which starts search for following types: identifiers, keywords, and numeric etc.
+3. need a lookup table with regexes for above to match them to correct tokentype
+   */
+
+
 #include "lexer.hpp"
 #include <iostream>
-
-Lexer::Lexer(const std::string &source_contents) : input_text(source_contents), 
-                                                   current_position(0), 
-                                                   current_line(1), 
-                                                   current_column(1) {}
+#include <cctype>
 
 
 void advance() {
@@ -16,40 +20,74 @@ void advance() {
 Token Lexer::get_next_token() {
 
     Token current_token;
-
     while (True) {
 
         if (current_position >= input_text.length())
-            return Token(TokenType::END_OF_FILE);
+            return {TokenType::END_OF_FILE};
 
         char c = input_text[current_position];
-        switch (c) {
-            case '\n':
-                current_line++;
-                current_column = 1;
-                continue;
-            case '(':
-                current_token = Token(TokenType::PUNCTUATION_OPENPAREN, "", current_line, current_column);
-                advance();
-                break;
-            case ')':
-                current_token = Token(TokenType::PUNCTUATION_CLOSEPAREN, "", current_line, current_column);
-                advance();
-                break;
-            case ':':
-                current_token = Token(TokenType::PUNCTUATION_COLON, "", current_line, current_column);
-                advance();
-                break;
-            case '#':
-                current_token = Token(TokenType::PUNCTUATION_HASH, "", current_line, current_column);
-                advance();
-                break;
-            default:
-                advance();
-                continue;
+
+        // maybe a condition for whitespace or ignore it completely?
+        if (isalnum(c)) {
+            // here we pop into another function to figure out if this could
+            // be an keyword, identifier or numeric value
+
+        } else {
+
+            switch (c) {
+                case '\n':
+                    current_line++;
+                    current_column = 1;
+                    continue;
+                case '(':
+                    current_token = {TokenType::PUNCTUATION_OPENPAREN, current_line, current_column};
+                    advance();
+                    break;
+                case ')':
+                    current_token = {TokenType::PUNCTUATION_CLOSEPAREN, current_line, current_column};
+                    advance();
+                    break;
+                case ':':
+                    current_token = {TokenType::PUNCTUATION_COLON, current_line, current_column};
+                    advance();
+                    break;
+                case '#':
+                    current_token = {TokenType::PUNCTUATION_COMMENT, current_line, current_column};
+                    advance();
+                    break;
+                case '+':
+                    current_token = {TokenType::OPERATOR_PLUS, current_line, current_column};
+                    advance();
+                    break;
+                case '-':
+                    current_token = {TokenType::OPERATOR_MINUS, current_line, current_column};
+                    advance();
+                    break;
+                case '*':
+                    current_token = {TokenType::OPERATOR_MULTIPLY, current_line, current_column};
+                    advance();
+                    break;
+                case '/':
+                    current_token = {TokenType::OPERATOR_DIVIDE, current_line, current_column};
+                    advance();
+                    break;
+
+                case '=':
+                    // this one will have two cases of EQUAL and ASSIGNMENT
+                    break;
+                case '>':
+                    // this will have >= as well
+                    break;
+                case '<':
+                    // this will have <= as well
+                    break;
+
+                default:
+                    continue;
+            }
+
         }
     }
-
     return current_token;
 }
 
