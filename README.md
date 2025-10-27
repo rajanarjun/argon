@@ -13,7 +13,6 @@ let s = text("hello world")
 
 # printing to console
 print(x)       # prints 12
-print(y,c,s)   # prints 99.9 a hello world
 
 # operators
 let h = x + y
@@ -22,10 +21,13 @@ let k = x * y
 let l = x / y
 
 # conditional
-if (x > 0):
-    print(x)
-elseif (x == 0):
-    print(0)
+if (x == 1):
+    print("equal to 1")
+elsif (x > 0):
+    print("greater than 0")
+elseif (x <= 0):
+    print("less than or equal to 0")
 else:
     let z = num(0)
     print(z)
+end
