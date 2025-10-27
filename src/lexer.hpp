@@ -3,30 +3,32 @@
 #include <string>
 
 enum class TokenType {
-    IDENTIFIER, // x, y ,c, s, add
-    CHAR,       // 'a'
-    STRING,     // "hello world"
-    NUMBER,     // 12, 99.9
-    LET,        // let
-    EQUAL,      // =
-    END,        // end
-    IF,         // if
-    ELSE,       // else
-    QMARK,      // ?
-    PRINT,      // print
-    LESS,       // <
-    GREATER,    // >
-    COLON,      // :
-    PLUS,       // +
-    MINUS,      // -
-    STAR,       // *
-    SLASH,      // /
-    HASH,       // #
-    NUM_TYPE,   // num
-    DEC_TYPE,   // dec
-    ALP_TYPE,   // alp
-    TEXT_TYPE,  // text
-    END_OF_FILE // END OF FILE
+    IDENTIFIER,
+    CONSTANT_INTEGER,
+    CONSTANT_FLOATING,
+    LITERAL_CHAR,
+    LITERAL_STRING,
+    KEYWORD_LET,
+    KEYWORD_IF, 
+    KEYWORD_ELSEIF,
+    KEYWORD_ELSE,
+    KEYWORD_PRINT,
+    KEYWORD_NUM,
+    KEYWORD_DEC,
+    KEYWORD_ALP,
+    KEYWORD_TEXT,
+    OPERATOR_EQUAL,
+    OPERATOR_LESS,
+    OPERATOR_GREATER,
+    OPERATOR_PLUS,
+    OPERATOR_MINUS,
+    OPERATOR_STAR,
+    OPERATOR_SLASH,
+    PUNCTUATION_OPENPAREN,
+    PUNCTUATION_CLOSEPAREN,
+    PUNCTUATION_COLON,
+    PUNCTUATION_HASH,
+    END_OF_FILE
 };
 
 class Lexer {
