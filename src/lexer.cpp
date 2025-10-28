@@ -9,29 +9,57 @@
 #include "lexer.hpp"
 #include <iostream>
 #include <cctype>
+#include <string>
+#include <vector>
 
 
-void advance() {
+void Lexer::advance() {
     current_position++;
     current_column++;
 }
 
 
+char Lexer::peek() {
+    return input_text[current_position];
+}
+
+
+Token Lexer::get_identifier_or_keyword() {
+    std::string word = "";
+
+    // keep peeking and appending to word until invalid char appears
+    char c = peek();
+    while (c != ' ') { //|| c != '=' || c != '+' || c != '*' || c != '-' || c != '/' || c != '<' || c != '>') {
+
+        word += c;
+        advance();
+        c = peek();
+    }
+    // now check if the word is a keyword or identifier from a lookup
+    return {TokenType::IDENTIFIER, current_line, current_column, word};
+}
+
+
+//Token Lexer::get_integer_or_float() {
+    //std::string number = "";
+//
+//}
+
+
 Token Lexer::get_next_token() {
 
     Token current_token;
-    while (True) {
+    while (true) {
 
-        if (current_position >= input_text.length())
+        if (current_position >= input_text.length() - 1) {
             return {TokenType::END_OF_FILE};
+        }
 
-        char c = input_text[current_position];
+        char c = peek();
 
-        // maybe a condition for whitespace or ignore it completely?
-        if (isalnum(c)) {
-            // here we pop into another function to figure out if this could
-            // be an keyword, identifier or numeric value
-
+        if (std::isalpha(c)) {
+            current_token = get_identifier_or_keyword();
+            break;
         } else {
 
             switch (c) {
@@ -71,30 +99,33 @@ Token Lexer::get_next_token() {
                     current_token = {TokenType::OPERATOR_DIVIDE, current_line, current_column};
                     advance();
                     break;
-
                 case '=':
                     // this one will have two cases of EQUAL and ASSIGNMENT
+                    current_token = {TokenType::OPERATOR_EQUAL, current_line, current_column};
+                    advance();
                     break;
-                case '>':
-                    // this will have >= as well
-                    break;
-                case '<':
-                    // this will have <= as well
-                    break;
+
+                //case '>':
+                    //// this will have >= as well
+                    //break;
+                //case '<':
+                    //// this will have <= as well
+                    //break;
 
                 default:
+                    advance();
                     continue;
             }
-
+            break;
         }
     }
     return current_token;
 }
 
 
-vector<Token> Lexer::generate_tokens() {
+std::vector<Token> Lexer::generate_tokens() {
 
-    while (True) {
+    while (true) {
 
         Token token = get_next_token();
         token_stream.push_back(token);

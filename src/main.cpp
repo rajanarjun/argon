@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 
 std::string get_file_contents(const std::string &filename) {
 
@@ -56,7 +57,12 @@ int main(int argc, char **argv) {
     std::string source_file_contents = get_file_contents(source_file);
 
     Lexer lexer(source_file_contents);
-    vector<Token> tokens = lexer.generate_tokens();
+    std::vector<Token> tokens = lexer.generate_tokens();
+    std::cout << "tokens vec size: " << tokens.size() << std::endl;
+
+    for (Token x : tokens) {
+        std::cout << static_cast<int>(x.type) << std::endl;
+    }
     
     /* how flow will look like moving forward?
 

@@ -6,6 +6,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 enum class TokenType {
     IDENTIFIER,
@@ -54,7 +55,13 @@ public:
                                                 current_line(1), 
                                                 current_column(1) {}
 
-    void generate_tokens();
+    std::vector<Token> generate_tokens();
+    Token get_next_token();
+    Token get_identifier_or_keyword();
+    Token get_integer_or_float();
+    void advance();
+    char peek();
+    
 
 private:
     std::string input_text;
@@ -62,5 +69,5 @@ private:
     int current_position;
     int current_line;
     int current_column;
-    vector<Token> token_stream;
+    std::vector<Token> token_stream;
 };
