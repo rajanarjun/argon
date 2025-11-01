@@ -1,33 +1,46 @@
-## argon : simple language and compiler
+# Argon
+A simple, statically-typed programming language inspired by Python and C syntax, with a minimal compiler built from scratch in C++ and an LLVM-based backend for code generation.
 
-basic syntax:
+## Progress
+Currently working on the **lexical analyzer (lexer)**.
+
+- **Ingest source code** — *Completed*
+- **Token definitions** — *Completed*
+- **Lexer** — *In progress*
+- **Parser** — *Planned*
+- **AST + Semantic analysis** — *Planned*
+- **LLVM IR generation** — *Planned*
+- **Code emission and linking** — *Planned*
+- **Implement standard functions and library** — *Planned*
+
+## Dependencies
+- Written in **C++20**
+- Built with **CMake**
+- Currently uses only the **C++ Standard Library (STL)**
+- Planned: **LLVM backend** for code generation
+
+## Example Syntax
+*Note*: Syntax is experimental and may change as development progresses.
 
 ```argon
-# comments start with '#'
-
 # variable declaration and initialization
 let x = num(12)
 let y = dec(99.9)
-let c = alp('a')
-let s = text("hello world")
+let c = alp('c')
+let s = text("hello")
 
 # printing to console
-print(x)       # prints 12
-
-# operators
-let h = x + y
-let j = x - y
-let k = x * y
-let l = x / y
+print(x)
 
 # conditional
-if (x == 1):
-    print("equal to 1")
-elsif (x > 0):
-    print("greater than 0")
-elseif (x <= 0):
-    print("less than or equal to 0")
+if (x > 0):
+    print("positive")
+elseif (x == 0):
+    print("equal to zero")
 else:
-    let z = num(0)
-    print(z)
+    print("non-positive")
 end
+```
+
+## License
+MIT License — see `LICENSE` file.
