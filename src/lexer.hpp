@@ -50,11 +50,7 @@ struct Token {
 
 class Lexer {
 public:
-    Lexer(const std::string &source_contents) : input_text(source_contents), 
-                                                current_position(0), 
-                                                current_line(1), 
-                                                current_column(1) {}
-
+    Lexer(const std::string &source_contents);
     std::vector<Token> generate_tokens();
     Token get_next_token();
     Token get_identifier_or_keyword();

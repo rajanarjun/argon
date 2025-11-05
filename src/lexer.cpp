@@ -5,12 +5,17 @@
 3. need a lookup table with regexes for above to match them to correct tokentype
    */
 
-
 #include "lexer.hpp"
 #include <iostream>
 #include <cctype>
 #include <string>
 #include <vector>
+
+
+Lexer::Lexer(const std::string &source_contents) : input_text(source_contents), 
+                                                   current_position(0), 
+                                                   current_line(1), 
+                                                   current_column(1) {}
 
 
 void Lexer::advance() {
