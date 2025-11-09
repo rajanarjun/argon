@@ -1,8 +1,8 @@
 
 /* TODO: 
-1. differences of '=' and '=='
-2. alphanumeric case which starts search for following types: identifiers, keywords, and numeric etc.
-3. need a lookup table with regexes for above to match them to correct tokentype
+1. cases: ==, >=, <=, !=
+2. read_number function to get integer and float
+3. cases for char and string after going into ' or "
    */
 
 #include "lexer.hpp"
@@ -28,6 +28,31 @@ char Lexer::peek() {
     return input_text[current_position];
 }
 
+TokenType Lexer::check_for_keyword(std::string k_word) {
+
+    if (k_word == "let") {
+        return TokenType::KEYWORD_LET;
+    } else if (k_word == "if") {
+        return TokenType::KEYWORD_IF;
+    } else if (k_word == "elseif") {
+        return TokenType::KEYWORD_ELSEIF;
+    } else if (k_word == "else") {
+        return TokenType::KEYWORD_ELSE;
+    } else if (k_word == "print") {
+        return TokenType::KEYWORD_PRINT;
+    } else if (k_word == "num") {
+        return TokenType::KEYWORD_NUM;
+    } else if (k_word == "dec") {
+        return TokenType::KEYWORD_DEC;
+    } else if (k_word == "alp") {
+        return TokenType::KEYWORD_ALP;
+    } else if (k_word == "text") {
+        return TokenType::KEYWORD_TEXT;
+    }
+
+    return TokenType::NO_TOKEN;
+}
+
 
 Token Lexer::read_identifier() {
     std::string word = "";
@@ -37,20 +62,17 @@ Token Lexer::read_identifier() {
     while (true) {
 
         // punctuation
-        if (c == '(' || c == ')' || c == ''' || c == '"' || c == ',') {
+        if (c == '(' || c == ')' || c == '\'' || c == '"' || c == ',') {
             break;
         }
-
         // math operators
         if (c == '+' || c == '-' || c == '*' || c == '/') {
             break;
         }
-
         // comparison operators
         if (c == '=' || c == '>' || c == '<') {
             break;
         }
-
         // whitespace
         if (c == ' ') {
             break;
@@ -61,11 +83,16 @@ Token Lexer::read_identifier() {
         c = peek();
     }
 
-    // TODO now check if the word is a keyword or identifier from a lookup
+    // now check if the word is a keyword from a lookup
+    TokenType keyword_token = check_for_keyword(word);
+    if (keyword_token != TokenType::NO_TOKEN) {
+        return {keyword_token, current_line, current_column, word};
+    }
 
     return {TokenType::IDENTIFIER, current_line, current_column, word};
 }
 
+// TODO:
 //Token Lexer::read_number() {
 //
 //}
@@ -96,10 +123,10 @@ Token Lexer::get_next_token() {
             break;
         } 
 
-        else if (std::isdigit(c)) {
-            current_token = read_number();
-            break;
-        }
+        //else if (std::isdigit(c)) {
+            //current_token = read_number();
+            //break;
+        //}
 
         else {
 
@@ -124,10 +151,6 @@ Token Lexer::get_next_token() {
                     current_token = {TokenType::PUNCTUATION_COLON, current_line, current_column};
                     advance();
                     break;
-                case '#':
-                    current_token = {TokenType::PUNCTUATION_COMMENT, current_line, current_column};
-                    advance();
-                    break;
                 case '+':
                     current_token = {TokenType::OPERATOR_PLUS, current_line, current_column};
                     advance();
@@ -145,35 +168,32 @@ Token Lexer::get_next_token() {
                     advance();
                     break;
                 case '=':
-                    // this one will have two cases of EQUAL and ASSIGNMENT
-                    // currently only implement assignment
+                    // this one will also have "==" assignment case
                     current_token = {TokenType::OPERATOR_EQUAL, current_line, current_column};
                     advance();
                     break;
                 case '!':
-                    // could be not equal case
+                    // for != case
                     current_token = {TokenType::OPERATOR_NOTEQUAL, current_line, current_column};
                     advance();
                     break;
                 case '>':
                     // this will have >= as well
-                    // currently only implement >
                     current_token = {TokenType::OPERATOR_GREATER, current_line, current_column};
                     advance();
                     break;
                 case '<':
                     // this will have <= as well
-                    // currently only implement <
                     current_token = {TokenType::OPERATOR_LESS, current_line, current_column};
                     advance();
                     break;
-                case ''':
-                    // char case
+                case '\'':
+                    // this will be char case 'x'
                     current_token = {TokenType::PUNCTUATION_QUOTE, current_line, current_column};
                     advance();
                     break;
                 case '"':
-                    // string case
+                    // this will be string case "helloworld"
                     current_token = {TokenType::PUNCTUATION_DQUOTE, current_line, current_column};
                     advance();
                     break;

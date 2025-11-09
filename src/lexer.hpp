@@ -10,8 +10,8 @@
 
 enum class TokenType {
     IDENTIFIER,
-    CONSTANT_INTEGER,
-    CONSTANT_FLOATING,
+    LITERAL_INTEGER,
+    LITERAL_FLOAT,
     LITERAL_CHAR,
     LITERAL_STRING,
     KEYWORD_LET,
@@ -37,6 +37,7 @@ enum class TokenType {
     PUNCTUATION_COLON,
     PUNCTUATION_QUOTE,
     PUNCTUATION_DQUOTE,
+    NO_TOKEN,
     END_OF_FILE
 };
 
@@ -55,14 +56,14 @@ public:
     std::vector<Token> generate_tokens();
     Token get_next_token();
     Token read_identifier();
-    Token read_number();
+    //Token read_number();
     void advance();
     char peek();
     void advance_until_newline();
+    TokenType check_for_keyword(std::string k_word);
 
 private:
     std::string input_text;
-    TokenType current_token;
     int current_position;
     int current_line;
     int current_column;
