@@ -29,26 +29,55 @@ char Lexer::peek() {
 }
 
 
-Token Lexer::get_identifier_or_keyword() {
+Token Lexer::read_identifier() {
     std::string word = "";
 
     // keep peeking and appending to word until invalid char appears
     char c = peek();
-    while (c != ' ') { //|| c != '=' || c != '+' || c != '*' || c != '-' || c != '/' || c != '<' || c != '>') {
+    while (true) {
+
+        // punctuation
+        if (c == '(' || c == ')' || c == ''' || c == '"' || c == ',') {
+            break;
+        }
+
+        // math operators
+        if (c == '+' || c == '-' || c == '*' || c == '/') {
+            break;
+        }
+
+        // comparison operators
+        if (c == '=' || c == '>' || c == '<') {
+            break;
+        }
+
+        // whitespace
+        if (c == ' ') {
+            break;
+        }
 
         word += c;
         advance();
         c = peek();
     }
-    // now check if the word is a keyword or identifier from a lookup
+
+    // TODO now check if the word is a keyword or identifier from a lookup
+
     return {TokenType::IDENTIFIER, current_line, current_column, word};
 }
 
-
-//Token Lexer::get_integer_or_float() {
-    //std::string number = "";
+//Token Lexer::read_number() {
 //
 //}
+
+
+void Lexer::advance_until_newline() {
+   char c = peek();
+   while (c != '\n') {
+       advance();
+       c = peek();
+   }
+}
 
 
 Token Lexer::get_next_token() {
@@ -62,15 +91,26 @@ Token Lexer::get_next_token() {
 
         char c = peek();
 
-        if (std::isalpha(c)) {
-            current_token = get_identifier_or_keyword();
+        if (std::isalpha(c) || c == '_') {
+            current_token = read_identifier();
             break;
-        } else {
+        } 
+
+        else if (std::isdigit(c)) {
+            current_token = read_number();
+            break;
+        }
+
+        else {
 
             switch (c) {
                 case '\n':
                     current_line++;
                     current_column = 1;
+                    continue;
+                case '#':
+                    advance_until_newline();
+                    current_line++;
                     continue;
                 case '(':
                     current_token = {TokenType::PUNCTUATION_OPENPAREN, current_line, current_column};
@@ -106,17 +146,37 @@ Token Lexer::get_next_token() {
                     break;
                 case '=':
                     // this one will have two cases of EQUAL and ASSIGNMENT
+                    // currently only implement assignment
                     current_token = {TokenType::OPERATOR_EQUAL, current_line, current_column};
                     advance();
                     break;
-
-                //case '>':
-                    //// this will have >= as well
-                    //break;
-                //case '<':
-                    //// this will have <= as well
-                    //break;
-
+                case '!':
+                    // could be not equal case
+                    current_token = {TokenType::OPERATOR_NOTEQUAL, current_line, current_column};
+                    advance();
+                    break;
+                case '>':
+                    // this will have >= as well
+                    // currently only implement >
+                    current_token = {TokenType::OPERATOR_GREATER, current_line, current_column};
+                    advance();
+                    break;
+                case '<':
+                    // this will have <= as well
+                    // currently only implement <
+                    current_token = {TokenType::OPERATOR_LESS, current_line, current_column};
+                    advance();
+                    break;
+                case ''':
+                    // char case
+                    current_token = {TokenType::PUNCTUATION_QUOTE, current_line, current_column};
+                    advance();
+                    break;
+                case '"':
+                    // string case
+                    current_token = {TokenType::PUNCTUATION_DQUOTE, current_line, current_column};
+                    advance();
+                    break;
                 default:
                     advance();
                     continue;

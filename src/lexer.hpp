@@ -35,7 +35,8 @@ enum class TokenType {
     PUNCTUATION_OPENPAREN,
     PUNCTUATION_CLOSEPAREN,
     PUNCTUATION_COLON,
-    PUNCTUATION_COMMENT,
+    PUNCTUATION_QUOTE,
+    PUNCTUATION_DQUOTE,
     END_OF_FILE
 };
 
@@ -53,11 +54,11 @@ public:
     Lexer(const std::string &source_contents);
     std::vector<Token> generate_tokens();
     Token get_next_token();
-    Token get_identifier_or_keyword();
-    Token get_integer_or_float();
+    Token read_identifier();
+    Token read_number();
     void advance();
     char peek();
-    
+    void advance_until_newline();
 
 private:
     std::string input_text;
