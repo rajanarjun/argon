@@ -1,5 +1,5 @@
 # Argon
-A simple, statically-typed programming language inspired by Python and C syntax, with a minimal compiler built from scratch in C++ and an LLVM-based backend for code generation.
+A simple, programming language inspired by Python and C syntax, with a minimal compiler built from scratch in C++ and an LLVM-based backend for code generation.
 
 ## Progress
 Currently working on the **lexical analyzer (lexer)**.
@@ -25,9 +25,9 @@ Currently working on the **lexical analyzer (lexer)**.
 ```argon
 # variable declaration and initialization
 let x = 12;
-let y = 99.9;
-let c = c;
-let s = hello;
+let y = 99.999;
+let c = "c";
+let s = "hello world";
 
 # printing to console
 print[x];
