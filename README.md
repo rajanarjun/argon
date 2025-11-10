@@ -20,27 +20,17 @@ Currently working on the **lexical analyzer (lexer)**.
 - Planned: **LLVM backend** for code generation
 
 ## Example Syntax
-*Note*: Syntax is experimental and may change as development progresses.
+*Note*: Syntax may change as my mind wishes.
 
 ```argon
 # variable declaration and initialization
-let x = num(12)
-let y = dec(99.9)
-let c = alp('c')
-let s = text("hello")
+let x = 12;
+let y = 99.9;
+let c = c;
+let s = hello;
 
 # printing to console
-print(x)
-
-# conditional
-if (x > 0):
-    print("positive")
-elseif (x == 0):
-    print("equal to zero")
-else:
-    print("non-positive")
-end
-```
+print[x];
 
 ## License
 MIT License — see `LICENSE` file.
