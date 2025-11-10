@@ -31,6 +31,7 @@ let s = "hello world";
 
 # printing to console
 print[x];
+```
 
 ## License
 MIT License — see `LICENSE` file.
