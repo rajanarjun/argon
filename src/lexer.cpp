@@ -1,8 +1,7 @@
 
 /* TODO: 
-1. cases: ==, >=, <=, !=
-2. read_number function to get integer and float
-3. cases for char and string after going into ' or "
+1. read_number function to get integer and float
+2. cases for char and string after going into ' or "
    */
 
 #include "lexer.hpp"
