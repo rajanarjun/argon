@@ -27,7 +27,9 @@ enum class TokenType {
     OPERATOR_ASSIGNMENT,
     OPERATOR_NOTEQUAL,
     OPERATOR_LESS,
+    OPERATOR_LESSEQUAL,
     OPERATOR_GREATER,
+    OPERATOR_GREATEREQUAL,
     OPERATOR_PLUS,
     OPERATOR_MINUS,
     OPERATOR_MULTIPLY,
@@ -38,6 +40,7 @@ enum class TokenType {
     PUNCTUATION_QUOTE,
     PUNCTUATION_DQUOTE,
     NO_TOKEN,
+    ERROR,
     END_OF_FILE
 };
 
@@ -58,6 +61,7 @@ public:
     Token read_identifier();
     //Token read_number();
     void advance();
+    void go_back();
     char peek();
     void advance_until_newline();
     TokenType check_for_keyword(std::string k_word);

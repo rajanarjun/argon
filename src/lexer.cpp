@@ -24,6 +24,12 @@ void Lexer::advance() {
 }
 
 
+void Lexer::go_back() {
+    current_position--;
+    current_column--;
+}
+
+
 char Lexer::peek() {
     return input_text[current_position];
 }
@@ -70,7 +76,7 @@ Token Lexer::read_identifier() {
             break;
         }
         // comparison operators
-        if (c == '=' || c == '>' || c == '<') {
+        if (c == '=' || c == '>' || c == '<' || c == '!') {
             break;
         }
         // whitespace
@@ -168,23 +174,51 @@ Token Lexer::get_next_token() {
                     advance();
                     break;
                 case '=':
-                    // this one will also have "==" assignment case
-                    current_token = {TokenType::OPERATOR_EQUAL, current_line, current_column};
+                    advance();
+                    c = peek();
+                    if (c == '=') {
+                        // for == case
+                        current_token = {TokenType::OPERATOR_EQUAL, current_line, current_column};
+                    } else {
+                        go_back();
+                        current_token = {TokenType::OPERATOR_ASSIGNMENT, current_line, current_column};
+                    }
                     advance();
                     break;
                 case '!':
-                    // for != case
-                    current_token = {TokenType::OPERATOR_NOTEQUAL, current_line, current_column};
+                    advance();
+                    c = peek();
+                    if (c == '=') {
+                        // for != case
+                        current_token = {TokenType::OPERATOR_NOTEQUAL, current_line, current_column};
+                    } else {
+                        go_back();
+                        current_token = {TokenType::ERROR, current_line, current_column};
+                    }
                     advance();
                     break;
                 case '>':
-                    // this will have >= as well
-                    current_token = {TokenType::OPERATOR_GREATER, current_line, current_column};
+                    advance();
+                    c = peek();
+                    if (c == '=') {
+                        // for >= case
+                        current_token = {TokenType::OPERATOR_GREATEREQUAL, current_line, current_column};
+                    } else {
+                        go_back();
+                        current_token = {TokenType::OPERATOR_GREATER, current_line, current_column};
+                    }
                     advance();
                     break;
                 case '<':
-                    // this will have <= as well
-                    current_token = {TokenType::OPERATOR_LESS, current_line, current_column};
+                    advance();
+                    c = peek();
+                    if (c == '=') {
+                        // for <= case
+                        current_token = {TokenType::OPERATOR_LESSEQUAL, current_line, current_column};
+                    } else {
+                        go_back();
+                        current_token = {TokenType::OPERATOR_LESS, current_line, current_column};
+                    }
                     advance();
                     break;
                 case '\'':
