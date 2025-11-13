@@ -1,5 +1,9 @@
 # variable declaration and initialization
 let s = "hello world";
+let x = 10;
+let y = 99.99;
+let z = x + y;
 
 # printing to console
 print(s);
+print(z);
