@@ -30,7 +30,7 @@ let c = "c";
 let s = "hello world";
 
 # printing to console
-print[x];
+print(x);
 ```
 
 ## License
