@@ -1,4 +1,5 @@
 #include "lexer.hpp"
+#include "test_lexer.hpp"
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -55,20 +56,15 @@ int main(int argc, char **argv) {
     }
 
     std::string source_file_contents = get_file_contents(source_file);
+    std::cout << "\n";
+    std::cout << source_file_contents << std::endl;
 
     Lexer lexer(source_file_contents);
     std::vector<Token> tokens = lexer.generate_tokens();
-    std::cout << "tokens vec size: " << tokens.size() << std::endl;
 
-    for (Token x : tokens) {
-        std::cout << static_cast<int>(x.type) << std::endl;
-    }
+    print_tokens(tokens);
     
     /* how flow will look like moving forward?
-
-        // Lexer
-        Lexer lexer(source_file_contents);
-        vector<Token> tokens = lexer.generate_token()
 
         // Parser
         Parser parser(tokens)

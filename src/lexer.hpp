@@ -37,6 +37,7 @@ enum class TokenType {
     PUNCTUATION_OPENPAREN,
     PUNCTUATION_CLOSEPAREN,
     PUNCTUATION_COLON,
+    PUNCTUATION_SEMICOLON,
     PUNCTUATION_QUOTE,
     PUNCTUATION_DQUOTE,
     NO_TOKEN,
@@ -49,7 +50,7 @@ struct Token {
     TokenType type;
     int line = 0;
     int column = 0;
-    std::string value = "";
+    std::string lexeme = "";
 };
 
 

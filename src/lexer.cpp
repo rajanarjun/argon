@@ -45,14 +45,6 @@ TokenType Lexer::check_for_keyword(std::string k_word) {
         return TokenType::KEYWORD_ELSE;
     } else if (k_word == "print") {
         return TokenType::KEYWORD_PRINT;
-    } else if (k_word == "num") {
-        return TokenType::KEYWORD_NUM;
-    } else if (k_word == "dec") {
-        return TokenType::KEYWORD_DEC;
-    } else if (k_word == "alp") {
-        return TokenType::KEYWORD_ALP;
-    } else if (k_word == "text") {
-        return TokenType::KEYWORD_TEXT;
     }
 
     return TokenType::NO_TOKEN;
@@ -91,10 +83,10 @@ Token Lexer::read_identifier() {
     // now check if the word is a keyword from a lookup
     TokenType keyword_token = check_for_keyword(word);
     if (keyword_token != TokenType::NO_TOKEN) {
-        return {keyword_token, current_line, current_column, word};
+        return {keyword_token, current_line, current_column - word.length(), word};
     }
 
-    return {TokenType::IDENTIFIER, current_line, current_column, word};
+    return {TokenType::IDENTIFIER, current_line, current_column - word.length(), word};
 }
 
 // TODO:
@@ -118,7 +110,7 @@ Token Lexer::get_next_token() {
     while (true) {
 
         if (current_position >= input_text.length() - 1) {
-            return {TokenType::END_OF_FILE};
+            return {TokenType::END_OF_FILE, current_line, current_column, "EOF"};
         }
 
         char c = peek();
@@ -139,37 +131,41 @@ Token Lexer::get_next_token() {
                 case '\n':
                     current_line++;
                     current_column = 1;
+                    current_position++;
                     continue;
                 case '#':
                     advance_until_newline();
-                    current_line++;
                     continue;
                 case '(':
-                    current_token = {TokenType::PUNCTUATION_OPENPAREN, current_line, current_column};
+                    current_token = {TokenType::PUNCTUATION_OPENPAREN, current_line, current_column, "("};
                     advance();
                     break;
                 case ')':
-                    current_token = {TokenType::PUNCTUATION_CLOSEPAREN, current_line, current_column};
+                    current_token = {TokenType::PUNCTUATION_CLOSEPAREN, current_line, current_column, ")"};
                     advance();
                     break;
                 case ':':
-                    current_token = {TokenType::PUNCTUATION_COLON, current_line, current_column};
+                    current_token = {TokenType::PUNCTUATION_COLON, current_line, current_column, ":"};
+                    advance();
+                    break;
+                case ';':
+                    current_token = {TokenType::PUNCTUATION_SEMICOLON, current_line, current_column, ":"};
                     advance();
                     break;
                 case '+':
-                    current_token = {TokenType::OPERATOR_PLUS, current_line, current_column};
+                    current_token = {TokenType::OPERATOR_PLUS, current_line, current_column, "+"};
                     advance();
                     break;
                 case '-':
-                    current_token = {TokenType::OPERATOR_MINUS, current_line, current_column};
+                    current_token = {TokenType::OPERATOR_MINUS, current_line, current_column, "-"};
                     advance();
                     break;
                 case '*':
-                    current_token = {TokenType::OPERATOR_MULTIPLY, current_line, current_column};
+                    current_token = {TokenType::OPERATOR_MULTIPLY, current_line, current_column, "*"};
                     advance();
                     break;
                 case '/':
-                    current_token = {TokenType::OPERATOR_DIVIDE, current_line, current_column};
+                    current_token = {TokenType::OPERATOR_DIVIDE, current_line, current_column, "/"};
                     advance();
                     break;
                 case '=':
@@ -177,10 +173,10 @@ Token Lexer::get_next_token() {
                     c = peek();
                     if (c == '=') {
                         // for == case
-                        current_token = {TokenType::OPERATOR_EQUAL, current_line, current_column};
+                        current_token = {TokenType::OPERATOR_EQUAL, current_line, current_column, "=="};
                     } else {
                         go_back();
-                        current_token = {TokenType::OPERATOR_ASSIGNMENT, current_line, current_column};
+                        current_token = {TokenType::OPERATOR_ASSIGNMENT, current_line, current_column, "="};
                     }
                     advance();
                     break;
@@ -189,10 +185,10 @@ Token Lexer::get_next_token() {
                     c = peek();
                     if (c == '=') {
                         // for != case
-                        current_token = {TokenType::OPERATOR_NOTEQUAL, current_line, current_column};
+                        current_token = {TokenType::OPERATOR_NOTEQUAL, current_line, current_column, "!="};
                     } else {
                         go_back();
-                        current_token = {TokenType::ERROR, current_line, current_column};
+                        current_token = {TokenType::ERROR, current_line, current_column, ""};
                     }
                     advance();
                     break;
@@ -201,10 +197,10 @@ Token Lexer::get_next_token() {
                     c = peek();
                     if (c == '=') {
                         // for >= case
-                        current_token = {TokenType::OPERATOR_GREATEREQUAL, current_line, current_column};
+                        current_token = {TokenType::OPERATOR_GREATEREQUAL, current_line, current_column, ">="};
                     } else {
                         go_back();
-                        current_token = {TokenType::OPERATOR_GREATER, current_line, current_column};
+                        current_token = {TokenType::OPERATOR_GREATER, current_line, current_column, ">"};
                     }
                     advance();
                     break;
@@ -213,21 +209,20 @@ Token Lexer::get_next_token() {
                     c = peek();
                     if (c == '=') {
                         // for <= case
-                        current_token = {TokenType::OPERATOR_LESSEQUAL, current_line, current_column};
+                        current_token = {TokenType::OPERATOR_LESSEQUAL, current_line, current_column, "<="};
                     } else {
                         go_back();
-                        current_token = {TokenType::OPERATOR_LESS, current_line, current_column};
+                        current_token = {TokenType::OPERATOR_LESS, current_line, current_column, "<"};
                     }
                     advance();
                     break;
                 case '\'':
-                    // this will be char case 'x'
-                    current_token = {TokenType::PUNCTUATION_QUOTE, current_line, current_column};
+                    current_token = {TokenType::PUNCTUATION_QUOTE, current_line, current_column, "'"};
                     advance();
                     break;
                 case '"':
-                    // this will be string case "helloworld"
-                    current_token = {TokenType::PUNCTUATION_DQUOTE, current_line, current_column};
+                    // this will be string case "c " or "helloworld"
+                    current_token = {TokenType::PUNCTUATION_DQUOTE, current_line, current_column, "\""};
                     advance();
                     break;
                 default:
