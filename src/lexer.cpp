@@ -56,10 +56,10 @@ Token Lexer::read_identifier() {
 
     // keep peeking and appending to word until invalid char appears
     char c = peek();
-    while (true) {
+    while (std::isalpha(c) || c == '_') {
 
         // punctuation
-        if (c == '(' || c == ')' || c == '\'' || c == '"' || c == ',') {
+        if (c == '(' || c == ')' || c == '\'' || c == '"' || c == ',' || c == ';') {
             break;
         }
         // math operators
@@ -83,16 +83,52 @@ Token Lexer::read_identifier() {
     // now check if the word is a keyword from a lookup
     TokenType keyword_token = check_for_keyword(word);
     if (keyword_token != TokenType::NO_TOKEN) {
-        return {keyword_token, current_line, current_column - word.length(), word};
+        return {keyword_token, current_line, current_column - static_cast<int>(word.length()), word};
     }
 
-    return {TokenType::IDENTIFIER, current_line, current_column - word.length(), word};
+    return {TokenType::IDENTIFIER, current_line, current_column - static_cast<int>(word.length()), word};
 }
 
-// TODO:
-//Token Lexer::read_number() {
-//
-//}
+
+Token Lexer::read_number() {
+
+    std::string number = "";
+
+    // keep peeking and appending to word until invalid char appears
+    char c = peek();
+    while (std::isdigit(c) || c == '.') {
+
+        // punctuation
+        if (c == '(' || c == ')' || c == '\'' || c == '"' || c == ',' || c == ';') {
+            break;
+        }
+        // math operators
+        if (c == '+' || c == '-' || c == '*' || c == '/') {
+            break;
+        }
+        // comparison operators
+        if (c == '=' || c == '>' || c == '<' || c == '!') {
+            break;
+        }
+        // whitespace
+        if (c == ' ') {
+            break;
+        }
+
+        number += c;
+        advance();
+        c = peek();
+    }
+
+    TokenType number_tokentype;
+    if (number.find('.') != std::string::npos) {
+        number_tokentype = TokenType::LITERAL_FLOAT;
+    } else {
+        number_tokentype = TokenType::LITERAL_INTEGER;
+    }
+
+    return {number_tokentype, current_line, current_column - static_cast<int>(number.length()), number};
+}
 
 
 void Lexer::advance_until_newline() {
@@ -120,10 +156,10 @@ Token Lexer::get_next_token() {
             break;
         } 
 
-        //else if (std::isdigit(c)) {
-            //current_token = read_number();
-            //break;
-        //}
+        else if (std::isdigit(c)) {
+            current_token = read_number();
+            break;
+        }
 
         else {
 
@@ -149,7 +185,7 @@ Token Lexer::get_next_token() {
                     advance();
                     break;
                 case ';':
-                    current_token = {TokenType::PUNCTUATION_SEMICOLON, current_line, current_column, ":"};
+                    current_token = {TokenType::PUNCTUATION_SEMICOLON, current_line, current_column, ";"};
                     advance();
                     break;
                 case '+':

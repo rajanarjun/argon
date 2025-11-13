@@ -60,7 +60,7 @@ public:
     std::vector<Token> generate_tokens();
     Token get_next_token();
     Token read_identifier();
-    //Token read_number();
+    Token read_number();
     void advance();
     void go_back();
     char peek();
