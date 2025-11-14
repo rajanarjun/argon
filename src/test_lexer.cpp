@@ -17,10 +17,6 @@ string token_type_to_string(TokenType type) {
         case TokenType::KEYWORD_ELSEIF:           return "KEYWORD_ELSEIF";
         case TokenType::KEYWORD_ELSE:             return "KEYWORD_ELSE";
         case TokenType::KEYWORD_PRINT:            return "KEYWORD_PRINT";
-        case TokenType::KEYWORD_NUM:              return "KEYWORD_NUM";
-        case TokenType::KEYWORD_DEC:              return "KEYWORD_DEC";
-        case TokenType::KEYWORD_ALP:              return "KEYWORD_ALP";
-        case TokenType::KEYWORD_TEXT:             return "KEYWORD_TEXT";
 
         case TokenType::OPERATOR_EQUAL:           return "OPERATOR_EQUAL";
         case TokenType::OPERATOR_ASSIGNMENT:      return "OPERATOR_ASSIGNMENT";
