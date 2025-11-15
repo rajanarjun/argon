@@ -1,9 +1,3 @@
-
-/* TODO: 
-1. read_number function to get integer and float
-2. cases for char and string after going into ' or "
-   */
-
 #include "lexer.hpp"
 #include <iostream>
 #include <cctype>
@@ -51,7 +45,7 @@ TokenType Lexer::check_for_keyword(std::string k_word) {
 }
 
 
-Token Lexer::read_identifier() {
+Token Lexer::read_identifier_or_keyword() {
     std::string word = "";
 
     // keep peeking and appending to word until invalid char appears
@@ -175,7 +169,7 @@ Token Lexer::get_next_token() {
             if (!token_stream.empty() && token_stream[token_stream.size() - 1].type == TokenType::PUNCTUATION_DQUOTE) {
                 current_token = read_string();
             } else {
-                current_token = read_identifier();
+                current_token = read_identifier_or_keyword();
             }
             break;
         } 

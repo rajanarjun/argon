@@ -57,7 +57,7 @@ public:
     Lexer(const std::string &source_contents);
     std::vector<Token> generate_tokens();
     Token get_next_token();
-    Token read_identifier();
+    Token read_identifier_or_keyword();
     Token read_number();
     Token read_string();
     void advance();
