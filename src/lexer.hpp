@@ -12,7 +12,6 @@ enum class TokenType {
     IDENTIFIER,
     LITERAL_INTEGER,
     LITERAL_FLOAT,
-    LITERAL_CHAR,
     LITERAL_STRING,
     KEYWORD_LET,
     KEYWORD_IF, 
@@ -38,7 +37,6 @@ enum class TokenType {
     PUNCTUATION_CLOSEPAREN,
     PUNCTUATION_COLON,
     PUNCTUATION_SEMICOLON,
-    PUNCTUATION_QUOTE,
     PUNCTUATION_DQUOTE,
     NO_TOKEN,
     ERROR,
@@ -61,6 +59,7 @@ public:
     Token get_next_token();
     Token read_identifier();
     Token read_number();
+    Token read_string();
     void advance();
     void go_back();
     char peek();

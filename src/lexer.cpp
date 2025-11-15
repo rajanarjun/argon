@@ -132,11 +132,31 @@ Token Lexer::read_number() {
 
 
 void Lexer::advance_until_newline() {
-   char c = peek();
-   while (c != '\n') {
-       advance();
-       c = peek();
-   }
+    char c = peek();
+    while (c != '\n') {
+        advance();
+        c = peek();
+    }
+}
+
+Token Lexer::read_string() {
+
+    std::string possible_string = "";
+    std::string error_string = "";
+
+    char c = peek();
+    while (c != '"' && current_position <= input_text.length() - 1) {
+
+        possible_string += c;
+        advance();
+        c = peek();
+    }
+
+    if (current_position > input_text.length() - 1) {
+        return {TokenType::ERROR, current_line, current_column - static_cast<int>(error_string.length()), error_string};
+    }
+
+    return {TokenType::LITERAL_STRING, current_line, current_column - static_cast<int>(possible_string.length()), possible_string};
 }
 
 
@@ -152,12 +172,20 @@ Token Lexer::get_next_token() {
         char c = peek();
 
         if (std::isalpha(c) || c == '_') {
-            current_token = read_identifier();
+            if (!token_stream.empty() && token_stream[token_stream.size() - 1].type == TokenType::PUNCTUATION_DQUOTE) {
+                current_token = read_string();
+            } else {
+                current_token = read_identifier();
+            }
             break;
         } 
 
         else if (std::isdigit(c)) {
-            current_token = read_number();
+            if (!token_stream.empty() && token_stream[token_stream.size() - 1].type == TokenType::PUNCTUATION_DQUOTE) {
+                current_token = read_string();
+            } else {
+                current_token = read_number();
+            }
             break;
         }
 
@@ -253,11 +281,10 @@ Token Lexer::get_next_token() {
                     advance();
                     break;
                 case '\'':
-                    current_token = {TokenType::PUNCTUATION_QUOTE, current_line, current_column, "'"};
+                    current_token = {TokenType::ERROR, current_line, current_column, "'"};
                     advance();
                     break;
                 case '"':
-                    // this will be string case "c " or "helloworld"
                     current_token = {TokenType::PUNCTUATION_DQUOTE, current_line, current_column, "\""};
                     advance();
                     break;

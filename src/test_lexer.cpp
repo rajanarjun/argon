@@ -9,7 +9,6 @@ string token_type_to_string(TokenType type) {
         case TokenType::IDENTIFIER:               return "IDENTIFIER";
         case TokenType::LITERAL_INTEGER:          return "LITERAL_INTEGER";
         case TokenType::LITERAL_FLOAT:            return "LITERAL_FLOAT";
-        case TokenType::LITERAL_CHAR:             return "LITERAL_CHAR";
         case TokenType::LITERAL_STRING:           return "LITERAL_STRING";
 
         case TokenType::KEYWORD_LET:              return "KEYWORD_LET";
@@ -34,7 +33,6 @@ string token_type_to_string(TokenType type) {
         case TokenType::PUNCTUATION_CLOSEPAREN:   return "PUNCT_CLOSEPAREN";
         case TokenType::PUNCTUATION_COLON:        return "PUNCT_COLON";
         case TokenType::PUNCTUATION_SEMICOLON:    return "PUNCT_SEMICOLON";
-        case TokenType::PUNCTUATION_QUOTE:        return "PUNCT_QUOTE";
         case TokenType::PUNCTUATION_DQUOTE:       return "PUNCT_DQUOTE";
 
         case TokenType::NO_TOKEN:                 return "NO_TOKEN";
