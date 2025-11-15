@@ -13,8 +13,7 @@ Currently working on the **lexical analyzer (lexer)**.
 - **Code emission and linking**: Planned
 - **Implement standard functions and library**: Planned
 
-### Lexer Progress
-***
+***Lexer Progress:***
 
 Following is the test code used.
 
