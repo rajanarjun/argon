@@ -62,8 +62,9 @@ int main(int argc, char **argv) {
     Lexer lexer(source_file_contents);
     std::vector<Token> tokens = lexer.generate_tokens();
 
+    //  from test
     print_tokens(tokens);
-    
+
     /* how flow will look like moving forward?
 
         // Parser
