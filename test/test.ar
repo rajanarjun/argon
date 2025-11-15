@@ -1,7 +1,11 @@
 # variable declaration and initialization
-let s = "hello world";
-let s = "c";
+let x = 5;
+let y = 9;
+let result = x + z;
+let z = 87.33449;
+let c = "c";
+let hello_world = "hello world";
 
 # printing to console
-print(s);
+print(result);
 print("this is fun");
