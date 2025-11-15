@@ -16,9 +16,11 @@ Currently working on the **lexical analyzer (lexer)**.
 ### Lexer Progress
 
 Following is the test code used.
+
 ![Test Code 1](assets/test_code_lexer.png)
 
 Below is a sample of the lexer’s output, showing each token’s type, lexeme (actual value), and its position in the source (line and column).
+
 ![Terminal Lexer Token Output](assets/lexer_test.png)
 
 ## Dependencies
