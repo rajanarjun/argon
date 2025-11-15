@@ -14,7 +14,7 @@ Currently working on the **lexical analyzer (lexer)**.
 - **Implement standard functions and library**: Planned
 
 ### Lexer Progress
----
+***
 
 Following is the test code used.
 
