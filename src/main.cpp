@@ -56,13 +56,16 @@ int main(int argc, char **argv) {
     }
 
     std::string source_file_contents = get_file_contents(source_file);
+    //std::cout << "Source file contents: " << std::endl;
     std::cout << "\n";
-    std::cout << source_file_contents << std::endl;
+    //std::cout << source_file_contents << std::endl;
 
     Lexer lexer(source_file_contents);
     std::vector<Token> tokens = lexer.generate_tokens();
 
     //  from test
+    std::cout << "Tokens: " << std::endl;
+    std::cout << "\n";
     print_tokens(tokens);
 
     /* how flow will look like moving forward?
